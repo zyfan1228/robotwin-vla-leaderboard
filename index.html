@@ -223,6 +223,31 @@
   .track.single{color:#c9b98d;border-color:#3a3325;background:#1a1711}
   .date{font-size:13px;color:var(--muted-2);font-variant-numeric:tabular-nums}
 
+  /* reference baselines */
+  .ref{margin-top:36px}
+  .ref h2{
+    margin:0 0 6px;
+    font-size:15px;
+    font-weight:600;
+    letter-spacing:-.01em;
+    color:#c6d5ca;
+  }
+  .ref-note{
+    margin:0 0 14px;
+    max-width:840px;
+    font-size:12.5px;
+    line-height:1.65;
+    color:var(--muted-2);
+  }
+  .ref-table{background:rgba(12,16,13,.55);border-color:#181e1a}
+  .ref-table table{min-width:760px;font-size:13px}
+  .ref-table thead th{background:rgba(10,14,11,.9);border-bottom-color:#181e1a}
+  .ref-table tbody td{border-bottom-color:#141a16;color:var(--muted-2)}
+  .ref-table tbody tr:last-child td{border-bottom:0}
+  .ref-table tbody tr:hover{background:rgba(255,255,255,.014)}
+  .ref-table .method{font-weight:500;color:#b9c6bd}
+  .ref-table td.avg{color:#7fa98d;font-weight:600}
+
   /* footer */
   .footer{
     display:grid;
@@ -280,9 +305,11 @@
     <div class="meta-row">
       <span>Latest update: 2026-11-06</span>
       <span class="dot"></span>
-      <span>14 methods</span>
+      <span>14 VLA methods</span>
       <span class="dot"></span>
       <span>Ranked by Average ↓</span>
+      <span class="dot"></span>
+      <span>+4 reference baselines</span>
     </div>
   </header>
 
@@ -458,6 +485,70 @@
     </table>
   </div>
 
+  <section class="ref" aria-label="Reference non-VLA baselines">
+    <h2>Reference — non-VLA baselines</h2>
+    <p class="ref-note">
+      Official RoboTwin 2.0 entries outside the VLA scope, trained as single-task SFT policies.
+      Shown for context only — they are not part of the ranking above. ACT and DP take no language input;
+      DP3 additionally requires depth / point-cloud input; RDT is language-conditioned and sometimes classed
+      as a VLA, but the official board lists it as a single-task baseline.
+    </p>
+    <div class="table-wrap ref-table">
+      <table aria-label="Non-VLA baseline reference results">
+        <caption>Official non-VLA baselines, shown for reference and not ranked.</caption>
+        <thead>
+          <tr>
+            <th scope="col">Method</th>
+            <th scope="col">Contributor</th>
+            <th scope="col" class="num">Average</th>
+            <th scope="col" class="num">Clean → Random</th>
+            <th scope="col" class="num">Clean → Clean</th>
+            <th scope="col">Track</th>
+            <th scope="col">Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="method">DP3</span></td>
+            <td class="contrib">RoboTwin Team</td>
+            <td class="num avg">30.10%</td>
+            <td class="num">4.96%</td>
+            <td class="num">55.24%</td>
+            <td><span class="track single">Single</span></td>
+            <td class="date">25.08.04</td>
+          </tr>
+          <tr>
+            <td><span class="method">RDT</span></td>
+            <td class="contrib">RoboTwin Team</td>
+            <td class="num avg">24.11%</td>
+            <td class="num">13.72%</td>
+            <td class="num">34.50%</td>
+            <td><span class="track single">Single</span></td>
+            <td class="date">25.08.04</td>
+          </tr>
+          <tr>
+            <td><span class="method">ACT</span></td>
+            <td class="contrib">RoboTwin Team</td>
+            <td class="num avg">15.74%</td>
+            <td class="num">1.74%</td>
+            <td class="num">29.74%</td>
+            <td><span class="track single">Single</span></td>
+            <td class="date">25.08.04</td>
+          </tr>
+          <tr>
+            <td><span class="method">DP</span></td>
+            <td class="contrib">RoboTwin Team</td>
+            <td class="num avg">14.34%</td>
+            <td class="num">0.64%</td>
+            <td class="num">28.04%</td>
+            <td><span class="track single">Single</span></td>
+            <td class="date">25.08.04</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
   <footer class="footer">
     <div class="note">
       <h3>Scope</h3>
@@ -466,7 +557,8 @@
         World-Action Models (WAM / WRAM) and world-model policies are excluded — GO-3 Nano Preview
         (AGIBOT WRAM), ViGAR, ME-Dex-1.0, WorldScape Policy 2.0, and the WAM / WM entries (PrismWAM,
         PICA-WAM, PatchWAM, EWAM, UniWAM, 4D-WAM, X-WAM, FastWAM, AHA-WAM, CloudRobo-WM, MWA-Phoenix).
-        Non-VLA baselines (DP, DP3, ACT, RDT) are excluded as well. Methods that use a world model only as a
+        Non-VLA baselines (DP, DP3, ACT, RDT) are excluded from the ranking and listed below as reference
+        only. Methods that use a world model only as a
         training-time signal but deploy a VLA are kept — e.g. WorldLA, which distils Fast-WAM routing into a
         π0.5 policy and runs no world model at inference.
       </p>

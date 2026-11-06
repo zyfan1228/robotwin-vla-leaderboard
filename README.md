@@ -9,6 +9,8 @@ RoboTwin 2.0 的 VLA-only 榜单页面：只收录 Vision-Language-Action 策略
 
 - `index.html` — 全部内容与样式，单文件
 - 14 条 VLA 方法，其余方法数据来自 RoboTwin 2.0 官方榜 **2026-10-30** 快照（共 33 条）
+- 主榜下方另有 **Reference — non-VLA baselines** 区块：DP3 / RDT / ACT / DP（官方 Single 基线），
+  仅作对比展示，不计入 VLA 排名
 - Novaxis（Nova-M 1.0）条目：Clean→Random 51.10%、Clean→Clean 84.50%、Average 67.80%，
   按官方协议评测（2026-10-20）。该条目尚未出现在上述官方快照中，收录状态以官方榜为准
 
@@ -19,7 +21,8 @@ RoboTwin 2.0 的 VLA-only 榜单页面：只收录 Vision-Language-Action 策略
 - 世界-动作模型 / 世界模型策略：GO-3 Nano Preview（智元 WRAM）、ViGAR、ME-Dex-1.0、
   WorldScape Policy 2.0，以及 PrismWAM / PICA-WAM / PatchWAM / EWAM / UniWAM / 4D-WAM / X-WAM /
   FastWAM / AHA-WAM / CloudRobo-WM / MWA-Phoenix
-- 非 VLA 基线：DP / DP3 / ACT / RDT
+- 非 VLA 基线：DP / DP3 / ACT / RDT → 不进入主榜，改放在页尾参考区块（DP3 还依赖深度/点云输入；
+  RDT 含语言条件、常被归为 VLA，但官方榜将其记为 single-task 基线，故同样只作参考）
 
 容易误判的几条及其判定依据：
 
