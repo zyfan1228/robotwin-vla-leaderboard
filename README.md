@@ -8,17 +8,27 @@ RoboTwin 2.0 的 VLA-only 榜单页面：只收录 Vision-Language-Action 策略
 ## 页面内容
 
 - `index.html` — 全部内容与样式，单文件
-- 11 条 VLA 方法，其余方法数据来自 RoboTwin 2.0 官方榜 **2026-10-30** 快照
+- 14 条 VLA 方法，其余方法数据来自 RoboTwin 2.0 官方榜 **2026-10-30** 快照（共 33 条）
 - Novaxis（Nova-M 1.0）条目：Clean→Random 51.10%、Clean→Clean 84.50%、Average 67.80%，
   按官方协议评测（2026-10-20）。该条目尚未出现在上述官方快照中，收录状态以官方榜为准
 
 ## 收录口径
 
-只保留以视觉 + 语言为条件、直接输出动作的策略，排除：
+只保留推理时以视觉 + 语言为条件、直接输出动作的策略，排除：
 
-- 世界-动作模型 / 世界模型策略：GO-3 Nano Preview（智元 WRAM）、ViGAR、ME-Dex-1.0、WorldLA、
-  WorldScape Policy 2.0 等
+- 世界-动作模型 / 世界模型策略：GO-3 Nano Preview（智元 WRAM）、ViGAR、ME-Dex-1.0、
+  WorldScape Policy 2.0，以及 PrismWAM / PICA-WAM / PatchWAM / EWAM / UniWAM / 4D-WAM / X-WAM /
+  FastWAM / AHA-WAM / CloudRobo-WM / MWA-Phoenix
 - 非 VLA 基线：DP / DP3 / ACT / RDT
+
+容易误判的几条及其判定依据：
+
+| 方法 | 归类 | 依据 |
+|---|---|---|
+| WorldLA | 计入 VLA | 论文《WorldLA: Bridging World Action Models and Efficient VLAs…》，把 Fast-WAM 路由蒸馏进 π0.5，推理不跑世界模型 |
+| Abot-M0 | 计入 VLA | 论文《ABot-M0: VLA Foundation Model for Robotic Manipulation…》，阿里高德 AMAP CV Lab |
+| Discrete Forcing | 计入 VLA | 面向 VLA action expert 的少步去噪方法（OpenHelix） |
+| GO-3 Nano Preview | 不计入 | 智元 WRAM 架构，RoboDojo 将其归为“智能体 + 世界-动作模型” |
 
 > 官方总榜不区分 VLA / WAM。GO-3 Nano Preview 的 85.01% 来自 WRAM（世界-动作）架构，因此不入本表；
 > 这也是本页排名与官方总榜不同的原因。

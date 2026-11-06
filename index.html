@@ -280,7 +280,7 @@
     <div class="meta-row">
       <span>Latest update: 2026-11-06</span>
       <span class="dot"></span>
-      <span>11 methods</span>
+      <span>14 methods</span>
       <span class="dot"></span>
       <span>Ranked by Average ↓</span>
     </div>
@@ -336,6 +336,16 @@
         </tr>
         <tr>
           <td><span class="rank">#3</span></td>
+          <td><span class="method">WorldLA</span></td>
+          <td class="contrib">ISCAS</td>
+          <td class="num avg">64.46%</td>
+          <td class="num">46.74%</td>
+          <td class="num">82.18%</td>
+          <td><span class="track">Co-train</span></td>
+          <td class="date">26.10.24</td>
+        </tr>
+        <tr>
+          <td><span class="rank">#4</span></td>
           <td><span class="method">π0.5</span></td>
           <td class="contrib">Physical Intelligence</td>
           <td class="num avg">58.33%</td>
@@ -345,7 +355,7 @@
           <td class="date">26.08.10</td>
         </tr>
         <tr>
-          <td><span class="rank">#4</span></td>
+          <td><span class="rank">#5</span></td>
           <td><span class="method">OLA-Geo</span></td>
           <td class="contrib">OLA-HKUSTGZ</td>
           <td class="num avg">58.30%</td>
@@ -355,7 +365,7 @@
           <td class="date">26.09.01</td>
         </tr>
         <tr>
-          <td><span class="rank">#5</span></td>
+          <td><span class="rank">#6</span></td>
           <td><span class="method">Spatial Forcing</span></td>
           <td class="contrib">HKUST(GZ) & Tsinghua</td>
           <td class="num avg">51.96%</td>
@@ -365,7 +375,7 @@
           <td class="date">26.08.17</td>
         </tr>
         <tr>
-          <td><span class="rank">#6</span></td>
+          <td><span class="rank">#7</span></td>
           <td><span class="method">X-VLA</span></td>
           <td class="contrib">Tsinghua AIR & Shanghai AI Lab</td>
           <td class="num avg">44.46%</td>
@@ -375,7 +385,17 @@
           <td class="date">26.08.10</td>
         </tr>
         <tr>
-          <td><span class="rank">#7</span></td>
+          <td><span class="rank">#8</span></td>
+          <td><span class="method">Abot-M0</span></td>
+          <td class="contrib">AMAP CV Lab</td>
+          <td class="num avg">43.88%</td>
+          <td class="num">30.36%</td>
+          <td class="num">57.40%</td>
+          <td><span class="track">Co-train</span></td>
+          <td class="date">26.08.17</td>
+        </tr>
+        <tr>
+          <td><span class="rank">#9</span></td>
           <td><span class="method">EventVLA</span></td>
           <td class="contrib">Shanghai AI Lab</td>
           <td class="num avg">40.66%</td>
@@ -385,7 +405,7 @@
           <td class="date">26.08.10</td>
         </tr>
         <tr>
-          <td><span class="rank">#8</span></td>
+          <td><span class="rank">#10</span></td>
           <td><span class="method">Xiaomi Robotics-0</span></td>
           <td class="contrib">Xiaomi</td>
           <td class="num avg">40.54%</td>
@@ -395,7 +415,7 @@
           <td class="date">26.08.10</td>
         </tr>
         <tr>
-          <td><span class="rank">#9</span></td>
+          <td><span class="rank">#11</span></td>
           <td><span class="method">GalaxeaVLA</span></td>
           <td class="contrib">Galaxea AI</td>
           <td class="num avg">37.72%</td>
@@ -405,7 +425,17 @@
           <td class="date">26.08.17</td>
         </tr>
         <tr>
-          <td><span class="rank">#10</span></td>
+          <td><span class="rank">#12</span></td>
+          <td><span class="method">Discrete Forcing</span></td>
+          <td class="contrib">OpenHelix Team</td>
+          <td class="num avg">35.26%</td>
+          <td class="num">11.20%</td>
+          <td class="num">59.32%</td>
+          <td><span class="track">Co-train</span></td>
+          <td class="date">26.10.10</td>
+        </tr>
+        <tr>
+          <td><span class="rank">#13</span></td>
           <td><span class="method">π0</span></td>
           <td class="contrib">Physical Intelligence</td>
           <td class="num avg">31.38%</td>
@@ -415,7 +445,7 @@
           <td class="date">25.08.04</td>
         </tr>
         <tr>
-          <td><span class="rank">#11</span></td>
+          <td><span class="rank">#14</span></td>
           <td><span class="method">starVLA</span></td>
           <td class="contrib">StarVLA</td>
           <td class="num avg">24.84%</td>
@@ -432,10 +462,13 @@
     <div class="note">
       <h3>Scope</h3>
       <p>
-        VLA policies only: vision-language-conditioned policies that directly predict actions.
-        World-Action Models (WAM / WRAM) and world-model policies are excluded — e.g. GO-3 Nano
-        Preview (AGIBOT WRAM), ViGAR, ME-Dex-1.0, WorldLA, WorldScape Policy 2.0. Non-VLA baselines
-        (DP, DP3, ACT, RDT) are excluded as well.
+        VLA policies only: vision-language-conditioned policies that directly predict actions at inference.
+        World-Action Models (WAM / WRAM) and world-model policies are excluded — GO-3 Nano Preview
+        (AGIBOT WRAM), ViGAR, ME-Dex-1.0, WorldScape Policy 2.0, and the WAM / WM entries (PrismWAM,
+        PICA-WAM, PatchWAM, EWAM, UniWAM, 4D-WAM, X-WAM, FastWAM, AHA-WAM, CloudRobo-WM, MWA-Phoenix).
+        Non-VLA baselines (DP, DP3, ACT, RDT) are excluded as well. Methods that use a world model only as a
+        training-time signal but deploy a VLA are kept — e.g. WorldLA, which distils Fast-WAM routing into a
+        π0.5 policy and runs no world model at inference.
       </p>
     </div>
     <div class="note">
