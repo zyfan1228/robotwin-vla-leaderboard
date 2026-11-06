@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RoboTwin 2.0 · VLA Leaderboard</title>
+<meta name="description" content="RoboTwin 2.0 leaderboard filtered to Vision-Language-Action (VLA) policies, ranked by average success rate on 50 dual-arm manipulation tasks.">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230a0d0b'/%3E%3Cpath d='M8 10l8 14 8-14' fill='none' stroke='%235ddc8f' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+  :root{
+    --bg:#0a0d0b;
+    --panel:#111613;
+    --line:#1e2621;
+    --line-soft:#171d19;
+    --text:#e9efeb;
+    --muted:#8d998f;
+    --muted-2:#68746c;
+    --green:#5ddc8f;
+    --green-soft:#9af0bb;
+    --green-deep:#b6ffd1;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  html{color-scheme:dark}
+  body{
+    background:
+      radial-gradient(900px 420px at 50% -180px, rgba(93,220,143,.14), transparent 70%),
+      radial-gradient(1100px 520px at 100% -80px, rgba(60,120,90,.07), transparent 65%),
+      var(--bg);
+    color:var(--text);
+    font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  ::selection{background:rgba(93,220,143,.28)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--green);outline-offset:3px}
+
+  .page{
+    width:min(1120px, calc(100% - 40px));
+    margin:0 auto;
+    padding:56px 0 64px;
+  }
+
+  /* header */
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+  .eyebrow::before{
+    content:"";
+    width:6px;height:6px;border-radius:50%;
+    background:#4c997b;
+    box-shadow:0 0 10px rgba(76,153,123,.9);
+  }
+  h1{
+    margin:14px 0 0;
+    font-size:clamp(44px,7.2vw,74px);
+    line-height:1.02;
+    letter-spacing:-.045em;
+    font-weight:650;
+  }
+  h1 .brand-robo{color:#4c997b}
+  h1 .brand-twin{color:#643192}
+  h1 .brand-version{color:#b9b4ab}
+  .subtitle{
+    margin:10px 0 14px;
+    font-size:clamp(17px,2vw,21px);
+    line-height:1.35;
+    font-weight:500;
+    letter-spacing:-.01em;
+    color:#b9b4ab;
+  }
+  .lede{
+    margin:0;
+    max-width:680px;
+    color:var(--muted);
+    font-size:15px;
+    line-height:1.7;
+  }
+  .meta-row{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:10px;
+    margin-top:20px;
+    font-size:13px;
+    color:var(--muted-2);
+  }
+  .meta-row .dot{width:3px;height:3px;border-radius:50%;background:var(--muted-2)}
+
+  /* top card */
+  .top-card{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:18px;
+    margin:34px 0 22px;
+    padding:18px 22px;
+    border:1px solid rgba(93,220,143,.26);
+    border-radius:16px;
+    background:
+      linear-gradient(110deg, rgba(93,220,143,.13), rgba(93,220,143,.03) 42%, rgba(255,255,255,0) 72%),
+      rgba(17,22,19,.6);
+  }
+  .top-rank{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    min-width:62px;
+    padding:8px 12px;
+    border:1px solid rgba(93,220,143,.3);
+    border-radius:12px;
+    background:rgba(93,220,143,.1);
+  }
+  .top-rank strong{font-size:21px;line-height:1.1;color:var(--green-soft);letter-spacing:-.02em}
+  .top-rank span{font-size:9px;letter-spacing:.16em;color:var(--muted);margin-top:2px}
+  .top-main{min-width:200px}
+  .top-main h2{margin:0;font-size:18px;font-weight:650;letter-spacing:-.01em}
+  .top-main p{margin:4px 0 0;font-size:13px;color:var(--muted)}
+  .top-score{margin-left:auto;text-align:right}
+  .top-score strong{
+    font-size:30px;
+    line-height:1;
+    color:var(--green-soft);
+    letter-spacing:-.02em;
+    font-variant-numeric:tabular-nums;
+  }
+  .top-score .pct{font-size:16px;color:var(--green);margin-left:1px}
+  .top-score small{
+    display:block;
+    margin-top:5px;
+    font-size:10px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--muted-2);
+  }
+
+  /* table */
+  .table-wrap{
+    border:1px solid var(--line);
+    border-radius:16px;
+    overflow-x:auto;
+    overflow-y:hidden;
+    background:rgba(17,22,19,.72);
+    -webkit-overflow-scrolling:touch;
+  }
+  table{
+    width:100%;
+    min-width:840px;
+    border-collapse:collapse;
+    font-size:14px;
+  }
+  caption{
+    position:absolute;
+    width:1px;height:1px;
+    padding:0;margin:-1px;
+    overflow:hidden;clip:rect(0 0 0 0);
+    white-space:nowrap;border:0;
+  }
+  thead th{
+    padding:14px 18px;
+    text-align:left;
+    font-size:10.5px;
+    font-weight:600;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--muted-2);
+    background:rgba(13,17,14,.92);
+    border-bottom:1px solid var(--line);
+    white-space:nowrap;
+  }
+  thead th.num{text-align:right}
+  tbody td{
+    padding:15px 18px;
+    border-bottom:1px solid var(--line-soft);
+    white-space:nowrap;
+    vertical-align:middle;
+  }
+  tbody tr:last-child td{border-bottom:0}
+  tbody tr{transition:background .15s ease}
+  tbody tr:hover{background:rgba(255,255,255,.018)}
+  tbody tr.is-top{
+    background:linear-gradient(90deg, rgba(93,220,143,.11), rgba(93,220,143,.025) 55%, rgba(93,220,143,0));
+  }
+  tbody tr.is-top td{border-bottom-color:rgba(93,220,143,.18)}
+  tbody tr.is-top td:first-child{box-shadow:inset 3px 0 0 var(--green)}
+
+  .rank{font-size:13px;color:var(--muted-2);font-variant-numeric:tabular-nums}
+  .rank-1{
+    display:inline-block;
+    padding:3px 10px;
+    border-radius:999px;
+    background:var(--green);
+    color:#07130c;
+    font-size:12px;
+    font-weight:700;
+  }
+  .method{font-weight:600;letter-spacing:-.01em;color:var(--text)}
+  tr.is-top .method{color:#f2fff6}
+  .contrib{color:var(--muted)}
+  td.num{text-align:right;font-variant-numeric:tabular-nums;color:#c7d3cb}
+  td.avg{color:var(--green-soft);font-weight:600}
+  tr.is-top td.avg{color:var(--green-deep);font-weight:700}
+  .track{
+    display:inline-block;
+    padding:4px 10px;
+    border:1px solid #26312a;
+    border-radius:7px;
+    background:#141a16;
+    color:#9db2a4;
+    font-size:12px;
+    line-height:1.3;
+  }
+  .track.single{color:#c9b98d;border-color:#3a3325;background:#1a1711}
+  .date{font-size:13px;color:var(--muted-2);font-variant-numeric:tabular-nums}
+
+  /* footer */
+  .footer{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:22px 36px;
+    margin-top:34px;
+    padding-top:26px;
+    border-top:1px solid var(--line);
+  }
+  .note h3{
+    margin:0 0 6px;
+    font-size:10.5px;
+    font-weight:600;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--muted-2);
+  }
+  .note p{margin:0;font-size:13px;line-height:1.7;color:var(--muted)}
+  .note a{
+    color:#9fe8bd;
+    text-decoration:none;
+    border-bottom:1px solid rgba(93,220,143,.35);
+  }
+  .note a:hover{border-bottom-color:var(--green)}
+  .fine{
+    grid-column:1/-1;
+    margin:2px 0 0;
+    font-size:12px;
+    color:var(--muted-2);
+    line-height:1.6;
+  }
+
+  @media (max-width:760px){
+    .page{padding:36px 0 48px}
+    .top-card{padding:16px 18px}
+    .top-score{margin-left:0;text-align:left;width:100%}
+    .top-score small{margin-top:3px}
+    thead th,tbody td{padding:13px 14px}
+    table{min-width:780px}
+    .footer{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<main class="page">
+
+  <header>
+    <div class="eyebrow">Vision-Language-Action · VLA-only view</div>
+    <h1><span class="brand-robo">Robo</span><span class="brand-twin">Twin</span> <span class="brand-version">2.0</span></h1>
+    <p class="subtitle">VLA Policies · Overall Ranking</p>
+    <p class="lede">
+      Success rates on 50 dual-arm manipulation tasks, averaged over clean and randomized evaluation.
+      This board ranks Vision-Language-Action policies only.
+    </p>
+    <div class="meta-row">
+      <span>Latest update: 2026-11-06</span>
+      <span class="dot"></span>
+      <span>11 methods</span>
+      <span class="dot"></span>
+      <span>Ranked by Average ↓</span>
+    </div>
+  </header>
+
+  <section class="top-card" aria-label="Top-ranked VLA policy">
+    <div class="top-rank"><strong>#1</strong><span>VLA</span></div>
+    <div class="top-main">
+      <h2>Nova-M 1.0</h2>
+      <p>Novaxis · Co-train · 2026-10-20</p>
+    </div>
+    <div class="top-score">
+      <strong>67.80</strong><span class="pct">%</span>
+      <small>Average success rate</small>
+    </div>
+  </section>
+
+  <div class="table-wrap">
+    <table aria-label="RoboTwin 2.0 VLA-only leaderboard">
+      <caption>RoboTwin 2.0 VLA-only leaderboard, ranked by average success rate.</caption>
+      <thead>
+        <tr>
+          <th scope="col">Rank</th>
+          <th scope="col">Method</th>
+          <th scope="col">Contributor</th>
+          <th scope="col" class="num">Average</th>
+          <th scope="col" class="num">Clean → Random</th>
+          <th scope="col" class="num">Clean → Clean</th>
+          <th scope="col">Track</th>
+          <th scope="col">Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="is-top">
+          <td><span class="rank rank-1">#1</span></td>
+          <td><span class="method">Nova-M 1.0</span></td>
+          <td class="contrib">Novaxis</td>
+          <td class="num avg">67.80%</td>
+          <td class="num">51.10%</td>
+          <td class="num">84.50%</td>
+          <td><span class="track">Co-train</span></td>
+          <td class="date">26.10.20</td>
+        </tr>
+        <tr>
+          <td><span class="rank">#2</span></td>
+          <td><span class="method">GigaBrain-0.7</span></td>
+          <td class="contrib">GigaAI</td>
+          <td class="num avg">67.36%</td>
+          <td class="num">67.92%</td>
+          <td class="num">66.80%</td>
+          <td><span class="track">Co-train</span></td>
+          <td class="date">26.08.15</td>
+        </tr>
+        <tr>
+          <td><span class="rank">#3</span></td>
+          <td><span class="method">π0.5</span></td>
+          <td class="contrib">Physical Intelligence</td>
+          <td class="num avg">58.33%</td>
+          <td class="num">46.00%</td>
+          <td class="num">70.66%</td>
+          <td><span class="track">Co-train</span></td>
+          <td class="date">26.08.10</td>
+        </tr>
+        <tr>
+          <td><span class="rank">#4</span></td>
+          <td><span class="method">OLA-Geo</span></td>
+          <td class="contrib">OLA-HKUSTGZ</td>
+          <td class="num avg">58.30%</td>
+          <td class="num">33.64%</td>
+          <td class="num">82.96%</td>
+          <td><span class="track">Co-train</span></td>
+          <td class="date">26.09.01</td>
+        </tr>
+        <tr>
+          <td><span class="rank">#5</span></td>
+          <td><span class="method">Spatial Forcing</span></td>
+          <td class="contrib">HKUST(GZ) & Tsinghua</td>
+          <td class="num avg">51.96%</td>
+          <td class="num">26.74%</td>
+          <td class="num">77.18%</td>
+          <td><span class="track">Co-train</span></td>
+          <td class="date">26.08.17</td>
+        </tr>
+        <tr>
+          <td><span class="rank">#6</span></td>
+          <td><span class="method">X-VLA</span></td>
+          <td class="contrib">Tsinghua AIR & Shanghai AI Lab</td>
+          <td class="num avg">44.46%</td>
+          <td class="num">20.95%</td>
+          <td class="num">67.96%</td>
+          <td><span class="track">Co-train</span></td>
+          <td class="date">26.08.10</td>
+        </tr>
+        <tr>
+          <td><span class="rank">#7</span></td>
+          <td><span class="method">EventVLA</span></td>
+          <td class="contrib">Shanghai AI Lab</td>
+          <td class="num avg">40.66%</td>
+          <td class="num">15.74%</td>
+          <td class="num">65.58%</td>
+          <td><span class="track">Co-train</span></td>
+          <td class="date">26.08.10</td>
+        </tr>
+        <tr>
+          <td><span class="rank">#8</span></td>
+          <td><span class="method">Xiaomi Robotics-0</span></td>
+          <td class="contrib">Xiaomi</td>
+          <td class="num avg">40.54%</td>
+          <td class="num">18.22%</td>
+          <td class="num">62.86%</td>
+          <td><span class="track">Co-train</span></td>
+          <td class="date">26.08.10</td>
+        </tr>
+        <tr>
+          <td><span class="rank">#9</span></td>
+          <td><span class="method">GalaxeaVLA</span></td>
+          <td class="contrib">Galaxea AI</td>
+          <td class="num avg">37.72%</td>
+          <td class="num">12.72%</td>
+          <td class="num">62.72%</td>
+          <td><span class="track">Co-train</span></td>
+          <td class="date">26.08.17</td>
+        </tr>
+        <tr>
+          <td><span class="rank">#10</span></td>
+          <td><span class="method">π0</span></td>
+          <td class="contrib">Physical Intelligence</td>
+          <td class="num avg">31.38%</td>
+          <td class="num">16.34%</td>
+          <td class="num">46.42%</td>
+          <td><span class="track single">Single</span></td>
+          <td class="date">25.08.04</td>
+        </tr>
+        <tr>
+          <td><span class="rank">#11</span></td>
+          <td><span class="method">starVLA</span></td>
+          <td class="contrib">StarVLA</td>
+          <td class="num avg">24.84%</td>
+          <td class="num">3.16%</td>
+          <td class="num">46.52%</td>
+          <td><span class="track">Co-train</span></td>
+          <td class="date">26.08.17</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer class="footer">
+    <div class="note">
+      <h3>Scope</h3>
+      <p>
+        VLA policies only: vision-language-conditioned policies that directly predict actions.
+        World-Action Models (WAM / WRAM) and world-model policies are excluded — e.g. GO-3 Nano
+        Preview (AGIBOT WRAM), ViGAR, ME-Dex-1.0, WorldLA, WorldScape Policy 2.0. Non-VLA baselines
+        (DP, DP3, ACT, RDT) are excluded as well.
+      </p>
+    </div>
+    <div class="note">
+      <h3>Source</h3>
+      <p>
+        Rows for other methods come from the
+        <a href="https://robotwin-platform.github.io/leaderboard" target="_blank" rel="noopener">RoboTwin 2.0 official leaderboard</a>
+        (snapshot 2026-10-30). The Nova-M 1.0 entry was evaluated with the official protocol on 2026-10-20.
+        Average = (Clean→Random + Clean→Clean) / 2.
+      </p>
+    </div>
+    <p class="fine">
+      This is a filtered view of the official board; rankings are recomputed over the VLA subset only.
+      Contributor names the model's organization; for reproduced baselines the official board credits
+      RoboTwin Team as the evaluator. The official overall ranking, including world-action and world-model
+      policies, is available at the link above.
+    </p>
+  </footer>
+
+</main>
+</body>
+</html>
