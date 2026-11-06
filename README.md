@@ -34,14 +34,14 @@ python3 -m http.server 8000
 
 ## 部署到 GitHub Pages
 
-仓库包含 [`.github/workflows/pages.yml`](.github/workflows/pages.yml)，推送到 `main` 后会自动启用并部署 Pages：
+Pages 使用分支部署，不依赖 GitHub Actions：
+
+1. 仓库 **Settings → Pages**
+2. Build and deployment → Source: **Deploy from a branch**
+3. Branch: **main** / **(root)** → **Save**
 
 - 站点：<https://zyfan1228.github.io/robotwin-vla-leaderboard/>
 - 仓库：<https://github.com/zyfan1228/robotwin-vla-leaderboard>
-- 进度：仓库 **Actions → Deploy to GitHub Pages**
-
-首次部署约 1–3 分钟。若工作流因权限无法自动开启 Pages，改用备用方式：
-**Settings → Pages → Source: Deploy from a branch → main / (root) → Save**。
 
 ## 更新数据
 
