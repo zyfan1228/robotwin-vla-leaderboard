@@ -11,7 +11,7 @@ RoboTwin 2.0 的 VLA-only 榜单页面：只收录 Vision-Language-Action 策略
 - 14 条 VLA 方法，其余方法数据来自 RoboTwin 2.0 官方榜 **2026-10-30** 快照（共 33 条）
 - 主榜下方另有 **Reference — non-VLA baselines** 区块：DP3 / RDT / ACT / DP（官方 Single 基线），
   仅作对比展示，不计入 VLA 排名
-- Novaxis（Nova-M-VLA 1.0）条目：Clean→Random 51.10%、Clean→Clean 84.50%、Average 67.80%，
+- Novaxis（Nova-M-VLA 1.0）条目：Clean→Random 51.12%、Clean→Clean 84.48%、Average 67.80%，
   按官方协议评测（2026-10-20）。该条目尚未出现在上述官方快照中，收录状态以官方榜为准
 
 ## 收录口径
